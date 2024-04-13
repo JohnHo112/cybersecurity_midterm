@@ -1,5 +1,6 @@
 import { prisma } from "../../../../adapters.js";
 
+
 export async function getAllUsers(req, res) {
   const allUsers = await prisma.user.findMany();
   return res.json(allUsers);
@@ -10,8 +11,18 @@ export async function getAllUsers(req, res) {
  * @param {import('express').Response} res
  */
 export async function createOneUser(req, res) {
-  const user = await prisma.user.create({ data: { name: req.body.name } });
-  return res.status(201).json(user);
+  console.log("Create user data");
+  console.log(req.body);
+  console.log(req.file);
+  const username = req.body.username;
+  const password = req.body.password;
+  const filename = req.file.path;
+  if (!filename.match(/\.(jpg|png)$/)){
+    return res.status(400).json({msg: "Please upload png or jpg"});
+  }
+  
+  const user = await prisma.user.create({ data: { username: username, password: password, filename: filename } });  // save to db
+  return res.status(201).json({user});
 }
 
 /**

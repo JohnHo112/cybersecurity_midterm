@@ -1,13 +1,11 @@
 import { LockClosedIcon } from "@heroicons/react/20/solid";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import services from "../services";
-import { user } from "../services/user";
 
 // you should design your register page and api
-function CreateUserPage() {
-  const [formData, setFormData] = useState({ username: "", password: "", image: null });
+function LoginUserPage() {
+  const [formData, setFormData] = useState({ username: "", password: "" });
   const [message, setMessage] = useState("");
-  const fileInputRef = useRef(null);
 
   /** @type {React.ChangeEventHandler<HTMLInputElement>} */
   const handleTextInputChange = ({ target: { name, value } }) => {
@@ -19,34 +17,13 @@ function CreateUserPage() {
     }));
   };
 
-  const handleFileInputChange = (event) => {
-    const file = event.target.files[0];
-    setFormData((prev) => ({
-      ...prev,
-      image: file,
-    }));
-  };
-
   /** @type {React.FormEventHandler<HTMLFormElement>} */
   const handleFormSubmit = (event) => {
-    const formDataJs = new FormData();
-    formDataJs.append("username", formData.username);
-    formDataJs.append("password", formData.password);
-    formDataJs.append("image", formData.image);
-    console.log(formDataJs);
-
-    services.user.createOne(formDataJs).then((data) => {
-      setMessage(JSON.stringify(data, null, 2));
-      alert("Sign up successful!")
-    }).catch((error)=>{
-      alert("Please upload jpg or png")
-    });
-    setFormData({ username: "", password: "", image: null });
-
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
-
+    // services.user.createOne({ name: formData.username }).then((data) => {
+    //   setMessage(JSON.stringify(data, null, 2));
+    // });
+    console.log(formData);
+    setFormData({ username: "", password: "" });
     event.preventDefault();
   };
 
@@ -73,7 +50,7 @@ function CreateUserPage() {
               src="sign-up.png"
             />
             <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
-              Create an account
+              Lgoin your account
             </h2>
           </div>
           <form className="mt-8 space-y-6" onSubmit={handleFormSubmit}>
@@ -100,14 +77,6 @@ function CreateUserPage() {
                   value={formData.password}
                   onChange={handleTextInputChange}
                 />
-                <input 
-                  name="image"
-                  type="file"
-                  accept="image/jpg, image/png"
-                  className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" 
-                  ref={fileInputRef}
-                  onChange={handleFileInputChange}
-                />
               </div>
             </div>
 
@@ -117,19 +86,23 @@ function CreateUserPage() {
                 className="group relative flex w-full justify-center rounded-md bg-indigo-600 py-2 px-3 text-sm font-semibold text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                  <LockClosedIcon
+                  {/* <LockClosedIcon
                     className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
                     aria-hidden="true"
-                  />
+                  /> */}
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                  </svg>
                 </span>
-                Create
+                Login
               </button>
             </div>
           </form>
         </div>
       </div>
+      <pre>{message}</pre>
     </>
   );
 }
 
-export default CreateUserPage;
+export default LoginUserPage;
