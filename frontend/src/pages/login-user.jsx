@@ -1,11 +1,16 @@
 import { LockClosedIcon } from "@heroicons/react/20/solid";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { useNavigate } from 'react-router-dom';
 import services from "../services";
+import { setAuthToken } from "../services/utils";
 
 // you should design your register page and api
-function LoginUserPage() {
+function LoginUserPage(props) {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({ username: "", password: "" });
   const [message, setMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState();
+  // const history = useHistory();
 
   /** @type {React.ChangeEventHandler<HTMLInputElement>} */
   const handleTextInputChange = ({ target: { name, value } }) => {
@@ -19,10 +24,13 @@ function LoginUserPage() {
 
   /** @type {React.FormEventHandler<HTMLFormElement>} */
   const handleFormSubmit = (event) => {
-    // services.user.createOne({ name: formData.username }).then((data) => {
-    //   setMessage(JSON.stringify(data, null, 2));
-    // });
     console.log(formData);
+    services.user.login(formData).then((data) => {
+      console.log(data);
+      props.setSignedUser(data);
+    });
+    navigate('/');
+
     setFormData({ username: "", password: "" });
     event.preventDefault();
   };

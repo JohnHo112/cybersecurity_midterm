@@ -16,3 +16,10 @@ model User {
   password    String
   filename    String
 }
+model msg {
+  id      Int      @id @default(autoincrement())
+  user_id    Int
+  username String
+  filename String
+  msg    String
+}

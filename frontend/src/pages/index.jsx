@@ -12,7 +12,11 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function RootLayout() {
+export default function RootLayout(props) {
+  const handleLogout = () =>{
+    props.setSignedUser(null);
+  }
+
   return (
     <div>
       <Disclosure as="nav" className="bg-gray-800">
@@ -87,34 +91,67 @@ export default function RootLayout() {
                       leaveFrom="transform opacity-100 scale-100"
                       leaveTo="transform opacity-0 scale-95"
                     >
-                      <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                        <Menu.Item>
-                          {({ active }) => (
-                            <a
-                              href="/login-user"
-                              className={classNames(
-                                active ? "bg-gray-100" : "",
-                                "block px-4 py-2 text-sm text-gray-700"
-                              )}
-                            >
-                              Login
-                            </a>
-                          )}
-                        </Menu.Item>
-                        <Menu.Item>
-                          {({ active }) => (
-                            <a
-                              href="/create-user"
-                              className={classNames(
-                                active ? "bg-gray-100" : "",
-                                "block px-4 py-2 text-sm text-gray-700"
-                              )}
-                            >
-                              Sign Up
-                            </a>
-                          )}
-                        </Menu.Item>
-                      </Menu.Items>
+                      {!props.signedUser ? 
+                        <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                          <Menu.Item>
+                            {({ active }) => (
+                              <NavLink to="/login-user"
+                                // href="/login-user"
+                                className={classNames(
+                                  active ? "bg-gray-100" : "",
+                                  "block px-4 py-2 text-sm text-gray-700"
+                                )}
+                              >
+                                Login
+                              </NavLink>
+                            )}
+                          </Menu.Item>
+                          <Menu.Item>
+                            {({ active }) => (
+                              <NavLink to="/create-user"
+                                // href="/create-user"
+                                className={classNames(
+                                  active ? "bg-gray-100" : "",
+                                  "block px-4 py-2 text-sm text-gray-700"
+                                )}
+                              >
+                                Sign Up
+                              </NavLink>
+                            )}
+                          </Menu.Item>
+                        </Menu.Items>
+                      : 
+                        <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                          <Menu.Item>
+                            {({ active }) => (
+                              <NavLink to="/my-account"
+                                // href="/my-account"
+                                className={classNames(
+                                  active ? "bg-gray-100" : "",
+                                  "block px-4 py-2 text-sm text-gray-700"
+                                )}
+                              >
+                                My account
+                              </NavLink>
+                            )}
+                          </Menu.Item>
+                          <Menu.Item>
+                            {({ active }) => (
+                              <NavLink to="/"
+                                // href="/"
+                                onClick={handleLogout}
+                                className={classNames(
+                                  active ? "bg-gray-100" : "",
+                                  "block px-4 py-2 text-sm text-gray-700"
+                                )}
+                              >
+                                Logout
+                              </NavLink>
+                            )}
+                          </Menu.Item>
+                        </Menu.Items>
+                      }
+
                     </Transition>
                   </Menu>
                 </div>

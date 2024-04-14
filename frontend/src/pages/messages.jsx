@@ -1,29 +1,63 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import services from "../services";
 
-const MessagesPage = () => {
+
+const MessagesPage = (props) => {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
+
+  useEffect(() => {
+    // 副作用函数
+    getAllmsg();
+  }, []);
+
+  async function getAllmsg() {
+    try {
+      console.log('test');
+      await services.msg.getAll()
+      services.msg.getAll().then((data) => {
+        console.log(data);
+        setMessages(data);
+      });
+     
+    } catch (error) {
+      console.error("Error :", error);
+    }
+  }
 
   const handleMessageChange = (e) => {
     setMessage(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (message.trim() !== '') {
       const newMessage = {
-        id: Math.random().toString(36).substr(2, 9), // Generate a random ID for the message
-        username: "username",
-        avatar: "user_avatar_url",
-        text: message
+        user_id: props.signedUser.id,
+        username: props.signedUser.username,
+        filename: props.signedUser.filename,
+        msg: message
       };
-      setMessages([...messages, newMessage]);
-      setMessage('');
+      try {
+        console.log("newMessage");
+        console.log(newMessage);
+        const data = await services.msg.createOne(newMessage);
+        getAllmsg();
+        
+      } catch (error) {
+        console.error("Error submit:", error);
+      }
     }
   };
 
-  const handleDelete = (id) => {
-    setMessages(messages.filter(msg => msg.id !== id));
+  const handleDelete = async (id) => {
+    console.log(id);
+    try {
+      const data = await services.msg.deleteOne(props.signedUser.id, id);
+        getAllmsg();
+    } catch (error) {
+      console.error("Error submit:", error);
+    }
   };
 
   return (
@@ -51,10 +85,10 @@ const MessagesPage = () => {
         {messages.map((msg) => (
           <div key={msg.id} className="mt-4 p-4 bg-gray-100 rounded-lg">
             <div className="flex items-center mb-2">
-              <img src={msg.avatar} alt="User Avatar" className="w-8 h-8 rounded-full" />
+              <img src={msg.filename} alt="User Avatar" className="w-8 h-8 rounded-full" />
               <span className="ml-2 font-semibold">{msg.username}</span>
             </div>
-            <div>{msg.text}</div>
+            <div>{msg.msg}</div>
             <button onClick={() => handleDelete(msg.id)} className="mt-2 text-red-600 hover:text-red-800">Delete</button>
           </div>
         ))}
