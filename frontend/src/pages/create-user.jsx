@@ -35,12 +35,12 @@ function CreateUserPage() {
     formDataJs.append("image", formData.image);
     console.log(formDataJs);
 
+
     services.user.createOne(formDataJs).then((data) => {
       setMessage(JSON.stringify(data, null, 2));
-      alert("Sign up successful!")
-    }).catch((error)=>{
-      alert("Please upload jpg or png")
-    });
+      alert("Sign up successful.");
+    }).catch((error)=>{alert("Sign up fail. (Account already exists)")});
+
     setFormData({ username: "", password: "", image: null });
 
     if (fileInputRef.current) {

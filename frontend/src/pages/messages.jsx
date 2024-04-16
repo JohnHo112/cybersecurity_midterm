@@ -13,10 +13,8 @@ const MessagesPage = (props) => {
 
   async function getAllmsg() {
     try {
-      console.log('test');
       await services.msg.getAll()
       services.msg.getAll().then((data) => {
-        console.log(data);
         setMessages(data);
       });
      
@@ -31,7 +29,7 @@ const MessagesPage = (props) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (message.trim() !== '') {
+    if (message.trim() !== '' && props.signedUser) {
       const newMessage = {
         user_id: props.signedUser.id,
         username: props.signedUser.username,
@@ -39,23 +37,24 @@ const MessagesPage = (props) => {
         msg: message
       };
       try {
-        console.log("newMessage");
-        console.log(newMessage);
         const data = await services.msg.createOne(newMessage);
         getAllmsg();
         
       } catch (error) {
         console.error("Error submit:", error);
       }
+    } else {
+      alert("Please login or type some message.");
     }
   };
 
   const handleDelete = async (id) => {
-    console.log(id);
+    // console.log(id);
     try {
       const data = await services.msg.deleteOne(props.signedUser.id, id);
         getAllmsg();
     } catch (error) {
+      alert("It's not your message.");
       console.error("Error submit:", error);
     }
   };

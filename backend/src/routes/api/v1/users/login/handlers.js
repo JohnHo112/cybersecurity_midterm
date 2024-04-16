@@ -1,5 +1,8 @@
 import { user } from "../../../../../../../frontend/src/services/user.js";
 import { prisma } from "../../../../../adapters.js";
+import fs from 'fs';
+import path from 'path';
+
 
 async function findUserByUsernameAndPassword(username, password) {
     return prisma.user.findFirst({
@@ -20,6 +23,7 @@ export async function login(req, res) {
     .then((user) => {
         if (user) {
         console.log('Account found:', user);
+
         return res.status(201).json(user);
         } else {
         console.log('Account not found');
