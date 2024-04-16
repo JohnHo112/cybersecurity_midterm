@@ -2,6 +2,7 @@ import { prisma } from "../../../../adapters.js";
 import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
+import xss from 'xss'
 
 
 export async function getAllUsers(req, res) {
@@ -14,10 +15,10 @@ export async function getAllUsers(req, res) {
  * @param {import('express').Response} res
  */
 export async function createOneUser(req, res) {
-  const username = req.body.username;
-  const password = req.body.password;
-  const filename = req.file.filename;
-  const path=`${req.protocol}://${req.get('host')}`+'/api/v1/users/img/'+filename;
+  const username = xss(req.body.username);
+  const password = xss(req.body.password);
+  const filename = xss(req.file.filename);
+  const path=`${xss(req.protocol)}://${xss(req.get('host'))}`+'/api/v1/users/img/'+filename;
   if (!filename.match(/\.(jpg|png)$/)){
     return res.status(400).json({msg: "Please upload png or jpg"});
   }
@@ -38,7 +39,7 @@ export async function createOneUser(req, res) {
  * @param {import('express').Response} res
  */
 export async function getOneUser(req, res) {
-  const id = parseInt(req.params.id);
+  const id = parseInt(xss(req.params.id));
   if (isNaN(id)) return res.status(400).json({ error: "Invalid id" });
   const user = await prisma.user.findUnique({ where: { id } });
   if (user === null) return res.status(404).json({ error: "Not Found" });
@@ -46,7 +47,7 @@ export async function getOneUser(req, res) {
 }
 
 export async function getFile(req, res) {
-  const filename = req.params.img;
+  const filename = xss(req.params.img);
 
   // Get the directory path of the current module file
   const currentDir = path.dirname(fileURLToPath(import.meta.url));

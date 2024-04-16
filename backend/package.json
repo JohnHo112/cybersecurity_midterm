@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "deploy": "yarn prisma migrate deploy && node --experimental-specifier-resolution=node src/index.js",
+    "start": "yarn prisma migrate deploy && node --experimental-specifier-resolution=node src/index.js",
     "dev": "nodemon --experimental-specifier-resolution=node src/index.js"
   },
   "dependencies": {
@@ -16,7 +17,8 @@
     "express-session": "^1.17.3",
     "glob": "^9.2.1",
     "multer": "^1.4.5-lts.1",
-    "prisma": "^4.11.0"
+    "prisma": "^4.11.0",
+    "xss": "^1.0.15"
   },
   "devDependencies": {
     "nodemon": "^2.0.21"

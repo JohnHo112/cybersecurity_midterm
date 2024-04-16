@@ -1,5 +1,5 @@
 import { prisma } from "../../../../adapters.js";
-
+import xss from 'xss'
 
 export async function getAllMsg(req, res) {
   const allmsgs = await prisma.msg.findMany({orderBy: {
@@ -12,9 +12,9 @@ export async function getAllMsg(req, res) {
   console.log("createOneMsg");
   console.log(req.body);
   const user_id =req.body.user_id;
-  const username =req.body.username;
-  const filename =req.body.filename;
-  const msgContent = req.body.msg;
+  const username =xss(req.body.username);
+  const filename =xss(req.body.filename);
+  const msgContent = xss(req.body.msg);
 
   const msg = await prisma.msg.create({ data: { user_id: user_id, username: username, filename: filename , msg: msgContent}});
   console.log(msg)

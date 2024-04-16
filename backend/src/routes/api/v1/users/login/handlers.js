@@ -2,6 +2,7 @@ import { user } from "../../../../../../../frontend/src/services/user.js";
 import { prisma } from "../../../../../adapters.js";
 import fs from 'fs';
 import path from 'path';
+import xss from 'xss'
 
 
 async function findUserByUsernameAndPassword(username, password) {
@@ -16,8 +17,8 @@ async function findUserByUsernameAndPassword(username, password) {
 export async function login(req, res) {
     console.log("login data");
     console.log(req.body);
-    const username = req.body.username;
-    const password = req.body.password;
+    const username = xss(req.body.username);
+    const password = xss(req.body.password);
 
     findUserByUsernameAndPassword(username, password)
     .then((user) => {
