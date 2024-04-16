@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "http://localhost:8000",
+        target: "http://https://midterm-backend-silk.vercel.app:8000",
         changeOrigin: true,
       },
     },
