@@ -51,13 +51,13 @@ export async function getFile(req, res) {
   // Get the directory path of the current module file
   const currentDir = path.dirname(fileURLToPath(import.meta.url));
 
-  console.log("filename");
-  console.log(filename);
+  // console.log("filename");
+  // console.log(filename);
 
   // Construct the image path
   const imagePath = path.join(currentDir, '../../../../../public/Images/', filename);
-  console.log("imagePath");
-  console.log(imagePath);
+  // console.log("imagePath");
+  // console.log(imagePath);
   //const imagePathnew = path.normalize(imagePath);
 
  if (fs.existsSync(imagePath)) {

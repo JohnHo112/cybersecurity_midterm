@@ -8,6 +8,7 @@ import LoginUserPage from "./pages/login-user";
 import CreateUserPage from "./pages/create-user";
 import ErrorPage from "./pages/error-page";
 import MyAccountPage from "./pages/my-account";
+import AboutMePage from "./pages/about-me";
 
 
 const App = () => {
@@ -22,6 +23,10 @@ const App = () => {
       errorElement: <ErrorPage />,
       children: [
         { index: true, element: <RootIndex /> },
+        {
+          path: "/about-me",
+          element: <AboutMePage />,
+        },
         {
           path: "/messages",
           element: <MessagesPage signedUser={signedUser} setSignedUser={setSignedUser}/>,
