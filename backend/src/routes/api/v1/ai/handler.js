@@ -22,6 +22,7 @@ export async function rewrite(req, res) {
     console.log(text);
     res.send(text);
   } catch{(error) => {
+    console.log(error)
     res.send(error);
     }
   }
