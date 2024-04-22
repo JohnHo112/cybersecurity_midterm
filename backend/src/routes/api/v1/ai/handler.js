@@ -6,6 +6,7 @@ const genAI = new GoogleGenerativeAI(process.env.API_KEY);
 
 export async function rewrite(req, res) {
   try{
+    console.log(process.env.API_KEY);
     const sentence = xss(req.body.sentence);
     console.log("rewrite sentence");
     console.log(sentence);
