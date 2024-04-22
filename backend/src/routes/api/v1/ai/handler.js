@@ -7,7 +7,8 @@ const genAI = new GoogleGenerativeAI(process.env.API_KEY);
 export async function rewrite(req, res) {
   try{
     const sentence = xss(req.body.sentence);
-    // console.log(sentence);
+    console.log("rewrite sentence");
+    console.log(sentence);
   
     // For text-only input, use the gemini-pro model
     const model = genAI.getGenerativeModel({ model: "gemini-pro"});
@@ -17,7 +18,8 @@ export async function rewrite(req, res) {
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const text = response.text();
-    // console.log(text);
+    console.log("ai rewrite sentence");
+    console.log(text);
     res.send(text);
   } catch{(error) => {
     res.send(error);
