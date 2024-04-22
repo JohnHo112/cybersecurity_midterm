@@ -1,10 +1,12 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import xss from 'xss'
 
-// Access your API key as an environment variable (see "Set up your API key" above)
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 export async function rewrite(req, res) {
+  // Access your API key as an environment variable (see "Set up your API key" above)
+  const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+  console.log(process.env.SESSION_SECRET);
+
   try{
     console.log(process.env.GEMINI_API_KEY);
     const sentence = xss(req.body.sentence);
