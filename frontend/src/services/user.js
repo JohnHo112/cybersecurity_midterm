@@ -14,4 +14,9 @@ export const user = {
     const {data} = await api.post("/users/login", formData);
     return data;
   },
+  async logout() {
+    const {data} = await api.post("/users/login/logout");
+    return data;
+  },
+
 };

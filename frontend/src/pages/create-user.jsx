@@ -39,7 +39,7 @@ function CreateUserPage() {
     services.user.createOne(formDataJs).then((data) => {
       setMessage(JSON.stringify(data, null, 2));
       alert("Sign up successful.");
-    }).catch((error)=>{alert("Sign up fail. (Account already exists)")});
+    }).catch((error)=>{alert("Sign up fail. (Account already exists/Username, password or filename can't be blank.)")});
 
     setFormData({ username: "", password: "", image: null });
 

@@ -24,6 +24,7 @@ export async function login(req, res) {
     .then((user) => {
         if (user) {
         console.log('Account found:', user);
+        req.session.user_id = user.id;
 
         return res.status(201).json(user);
         } else {
@@ -35,3 +36,11 @@ export async function login(req, res) {
         console.error('Something wrong for finding account:', error);
     });
   }
+
+export async function logout(req, res) {
+  req.session.destroy(() => {
+    console.log('session destroyed')
+  })
+  res.setHeader("Set-Cookie", "cookieName='fffff'; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;");;
+  return res.send("logout successful");
+}

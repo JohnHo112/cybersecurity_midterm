@@ -11,7 +11,7 @@ export async function getAllMsg(req, res) {
  export async function createOneMsg(req, res) {
   console.log("createOneMsg");
   console.log(req.body);
-  const user_id =req.body.user_id;
+  const user_id = req.session.user_id;
   const username =xss(req.body.username);
   const filename =xss(req.body.filename);
   const msgContent = xss(req.body.msg);
@@ -22,7 +22,7 @@ export async function getAllMsg(req, res) {
   }
 
 export async function deleteOneMsg(req, res) {
-  const user_id =req.body.user_id;
+  const user_id = req.session.user_id;
   const msg_id=req.body.msg_id;
   const msg= await prisma.msg.findFirst({where:{id:msg_id,user_id:user_id},select:{id:true}});
   if (msg === null) return res.status(404).json({ error: "msg cannot delete" });

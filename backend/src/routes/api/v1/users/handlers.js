@@ -17,11 +17,16 @@ export async function getAllUsers(req, res) {
 export async function createOneUser(req, res) {
   const username = xss(req.body.username);
   const password = xss(req.body.password);
-  const filename = xss(req.file.filename);
+  let filename;
+  try{
+    filename = xss(req.file.filename);
+    if (!filename.match(/\.(jpg|png)$/)){
+      return res.status(400).json({msg: "Please upload png or jpg"});
+    }
+  } catch{(error) => {
+      return res.status(400).json({msg: "File can't be blank or not png/jpg format."});
+  }}
   const path=`${xss(req.protocol)}://${xss(req.get('host'))}`+'/api/v1/users/img/'+filename;
-  if (!filename.match(/\.(jpg|png)$/)){
-    return res.status(400).json({msg: "Please upload png or jpg"});
-  }
 
   const user = await prisma.user.findFirst({where: {username: username },});
   if (!user){
@@ -43,6 +48,7 @@ export async function getOneUser(req, res) {
   if (isNaN(id)) return res.status(400).json({ error: "Invalid id" });
   const user = await prisma.user.findUnique({ where: { id } });
   if (user === null) return res.status(404).json({ error: "Not Found" });
+
   return res.json(user);
 }
 

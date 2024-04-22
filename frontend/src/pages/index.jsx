@@ -18,7 +18,13 @@ function classNames(...classes) {
 }
 
 export default function RootLayout(props) {
-  const handleLogout = () =>{
+  const handleLogout = async () =>{
+    try{
+      const data = await services.user.logout();
+      console.log(data);
+    } catch{(error) =>{
+      alert("logout fail.")
+    }}
     props.setSignedUser(null);
   }
 
