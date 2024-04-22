@@ -9,6 +9,7 @@ import CreateUserPage from "./pages/create-user";
 import ErrorPage from "./pages/error-page";
 import MyAccountPage from "./pages/my-account";
 import AboutMePage from "./pages/about-me";
+import AiPage from "./pages/ai-rewrite";
 
 
 const App = () => {
@@ -30,6 +31,10 @@ const App = () => {
         {
           path: "/messages",
           element: <MessagesPage signedUser={signedUser} setSignedUser={setSignedUser}/>,
+        },
+        {
+          path: "/ai-rewrite",
+          element: <AiPage signedUser={signedUser} setSignedUser={setSignedUser}/>,
         },
         {
           path: "/login-user",

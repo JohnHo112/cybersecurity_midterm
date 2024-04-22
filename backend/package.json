@@ -10,6 +10,7 @@
     "dev": "nodemon --experimental-specifier-resolution=node src/index.js"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.7.1",
     "@prisma/client": "4.11.0",
     "cookie-parser": "^1.4.6",
     "csrf-csrf": "^2.2.3",
